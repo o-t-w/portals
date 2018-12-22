@@ -12,3 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+dialog::backdrop {
+	/* make the backdrop a semi-transparent black */
+	background-color: rgba(0, 0, 0, 0.4);
+  }
+  
