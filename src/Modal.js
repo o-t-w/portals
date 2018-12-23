@@ -5,6 +5,9 @@ const modalRoot = document.getElementById('modal-container');
 
 const Modal = (props) => {
 	const element = document.createElement('dialog');
+	const inner = document.createElement('div');
+	element.style.padding = 0;
+	element.appendChild(inner);
 
 	function closeWithEscape(event) {
 		if (event.keyCode === 27) {
@@ -13,8 +16,10 @@ const Modal = (props) => {
 	}
 
 	function closeWithClickOutside(event) {
-		
-		props.hideModal();
+		console.log(event.target);
+		if (event.target === element) {
+			props.hideModal();
+		}
 	}
 
 	useEffect(
@@ -22,16 +27,18 @@ const Modal = (props) => {
 			modalRoot.appendChild(element);
 			element.showModal();
 			document.addEventListener('keypress', closeWithEscape);
-			// document.addEventListener('mousedown', closeWithClickOutside);
+			element.addEventListener('click', closeWithClickOutside);
+			document.body.style.overflow = "hidden";
 			return () => {
 				document.removeEventListener('keypress', closeWithEscape);
-				// document.removeEventListener('mousedown', closeWithClickOutside);
+				element.removeEventListener('click', closeWithClickOutside);
 				modalRoot.removeChild(element);
+				document.body.style.overflow = null;
 			}
 		}
 		);
 
-		return createPortal(props.children, element)
+		return createPortal(props.children, inner)
 
 };
 
